@@ -1,7 +1,7 @@
 {
   // Cloudflare Workers — static assets deployment
   // Deploy: npm run deploy (builds to ./dist, then wrangler deploy)
-  "name": "gustavo-gonik",
+  "name": "site-gustavo-gonik",
   "compatibility_date": "2026-06-01",
   "assets": {
     "directory": "./dist"
