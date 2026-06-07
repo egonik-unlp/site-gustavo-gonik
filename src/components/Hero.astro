@@ -1,13 +1,14 @@
 ---
+import { Image } from 'astro:assets';
+// Obra del hero: «Composición» de Héctor Saunier, abstracción gestual de
+// color que dialoga con la tinta del fondo. Imagen real, optimizada localmente.
+import obraHero from '../assets/saunier-composicion.jpeg';
+
 interface Props {
   whatsappUrl: string;
 }
 
 const { whatsappUrl } = Astro.props;
-
-// Obra del hero: bodegón barroco de fondo oscuro, dialoga con la tinta.
-const obraHero =
-  'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80';
 ---
 
 <section class="hero" id="inicio">
@@ -34,19 +35,19 @@ const obraHero =
 
     <figure class="hero-obra">
       <div class="marco marco-hero">
-        <img
+        <Image
           src={obraHero}
-          alt="Bodegón barroco: flores sobre fondo negro en un jarrón de metal, obra de Abraham Mignon"
-          width="720"
-          height="920"
+          alt="«Composición» de Héctor Saunier: abstracción gestual con trazos curvos en rosa, celeste, naranja y verde sobre lienzo"
+          widths={[400, 760, 1140]}
+          sizes="(max-width: 56rem) 90vw, 40vw"
+          loading="eager"
           fetchpriority="high"
         />
         <span class="dot-vendido" aria-hidden="true" title="Vendida"></span>
       </div>
       <figcaption class="label-obra label-hero">
-        <strong>Abraham Mignon</strong> · Flores en un jarrón de metal, óleo
-        sobre lienzo. El punto rojo significa «vendida»: así se marca en una
-        galería.
+        <strong>Héctor Saunier</strong> · «Composición», técnica mixta sobre
+        lienzo. El punto rojo significa «vendida»: así se marca en una galería.
       </figcaption>
     </figure>
   </div>
@@ -142,7 +143,7 @@ const obraHero =
 
   .marco-hero {
     position: relative;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 57 / 40;
     box-shadow: 0 30px 60px -20px oklch(0 0 0 / 0.5);
   }
 
@@ -183,7 +184,7 @@ const obraHero =
     }
 
     .hero-obra {
-      max-width: 26rem;
+      max-width: 32rem;
     }
   }
 </style>
