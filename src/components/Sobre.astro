@@ -1,0 +1,112 @@
+---
+// Sobre Gustavo: la persona detrás del ojo. Pared blanca.
+// REEMPLAZAR: retrato real, bio y credenciales verificables.
+const imgRetrato =
+  'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=80';
+---
+
+<section class="sobre" id="sobre">
+  <div class="container sobre-grid">
+    <figure class="retrato">
+      <div class="marco">
+        <img
+          src={imgRetrato}
+          alt="Retrato de Gustavo Gonik (imagen provisoria a reemplazar por el retrato real)"
+          width="560"
+          height="700"
+          loading="lazy"
+        />
+      </div>
+      <!-- Ficha de obra aplicada a la persona: gesto de galerista -->
+      <figcaption class="label-obra">
+        <strong>Gustavo Gonik</strong> · Tasador y asesor en arte. Buenos
+        Aires, Argentina.
+      </figcaption>
+    </figure>
+
+    <div class="sobre-copy">
+      <h2>Un ojo entrenado se nota<span class="dot" aria-hidden="true"></span></h2>
+      <p class="lead">
+        Hace más de veinticinco años que miro arte de cerca: en museos,
+        galerías, subastas y casas particulares. Aprendí que detrás de cada
+        obra hay dos historias: la del artista y la de quien la tiene. Las
+        dos importan para entender su valor.
+      </p>
+      <!-- REEMPLAZAR: credenciales reales (matrícula, instituciones, docencia) -->
+      <ul class="credenciales">
+        <li>Perito tasador de obras de arte</li>
+        <li>Docente de mercado del arte y coleccionismo</li>
+        <li>Asesor de colecciones privadas en Argentina y la región</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sobre {
+    background: var(--bg);
+    padding-block: var(--space-section);
+  }
+
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: center;
+  }
+
+  .retrato {
+    margin: 0;
+    max-width: 24rem;
+  }
+
+  .retrato .marco {
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 18px 40px -18px oklch(0.22 0.025 274 / 0.35);
+  }
+
+  .retrato figcaption {
+    margin-top: var(--space-sm);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    max-width: 16ch;
+  }
+
+  .lead {
+    margin-top: var(--space-md);
+    font-size: var(--text-lead);
+    line-height: 1.65;
+    max-width: 56ch;
+  }
+
+  .credenciales {
+    list-style: none;
+    margin: var(--space-lg) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    max-width: 36rem;
+  }
+
+  .credenciales li {
+    padding-block: var(--space-xs);
+    border-top: 1px solid var(--line);
+    font-weight: 500;
+  }
+
+  .credenciales li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: 56rem) {
+    .sobre-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .retrato {
+      max-width: 18rem;
+    }
+  }
+</style>

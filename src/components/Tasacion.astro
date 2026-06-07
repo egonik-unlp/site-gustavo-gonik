@@ -1,0 +1,200 @@
+---
+// Sección principal: tasación. Pared blanca de galería.
+const imgSalon =
+  'https://images.unsplash.com/photo-1554907984-15263bfd63bd?auto=format&fit=crop&w=1000&q=80';
+const imgMuseo =
+  'https://images.unsplash.com/photo-1545989253-02cc26577f88?auto=format&fit=crop&w=1000&q=80';
+
+const pasos = [
+  {
+    n: '1',
+    titulo: 'Consulta',
+    texto:
+      'Me escribís y me contás qué tenés. Con buenas fotos por WhatsApp ya puedo darte una primera lectura.',
+  },
+  {
+    n: '2',
+    titulo: 'Análisis',
+    texto:
+      'Estudio la obra: atribución, técnica, procedencia, estado de conservación y precios comparables de mercado.',
+  },
+  {
+    n: '3',
+    titulo: 'Informe',
+    texto:
+      'Recibís un informe de valor firmado, válido para venta, seguro, sucesión o donación.',
+  },
+];
+---
+
+<section class="tasacion" id="tasacion">
+  <div class="container">
+    <div class="tas-grid">
+      <div class="tas-copy">
+        <h2>Tasación de obra y colecciones<span class="dot" aria-hidden="true"></span></h2>
+        <p class="lead">
+          Un cuadro heredado. Una colección que hay que asegurar. Una pieza
+          comprada en un viaje hace veinte años. Antes de vender, asegurar,
+          donar o repartir, necesitás un valor serio y documentado.
+        </p>
+        <p class="que-taso">
+          Taso pintura, escultura, obra gráfica y fotografía, con foco en
+          arte argentino y latinoamericano. Una pieza suelta o la colección
+          completa.
+        </p>
+        <a class="link-flecha" href="#contacto">
+          Pedir una tasación
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5"/></svg>
+        </a>
+      </div>
+
+      <div class="tas-obras">
+        <figure class="obra obra-a">
+          <div class="marco">
+            <img
+              src={imgSalon}
+              alt="Sala de colección clásica: pinturas con marcos dorados colgadas sobre una pared de damasco rojo"
+              width="640"
+              height="430"
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="label-obra">Colecciones completas</figcaption>
+        </figure>
+        <figure class="obra obra-b">
+          <div class="marco">
+            <img
+              src={imgMuseo}
+              alt="Un autorretrato de Van Gogh colgado solo en una pared blanca de museo"
+              width="560"
+              height="380"
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="label-obra">Piezas individuales</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Proceso: secuencia real de tres pasos; los números llevan información -->
+    <ol class="pasos" aria-label="Cómo trabajo: tres pasos">
+      {pasos.map((paso, i) => (
+        <li class="paso reveal" style={`--i: ${i}`}>
+          <span class="paso-n" aria-hidden="true">{paso.n}</span>
+          <h3>{paso.titulo}</h3>
+          <p>{paso.texto}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .tasacion {
+    padding-block: var(--space-section);
+    background: var(--bg);
+  }
+
+  .tas-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    max-width: 16ch;
+  }
+
+  .lead {
+    margin-top: var(--space-md);
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    max-width: 52ch;
+  }
+
+  .que-taso {
+    margin-top: var(--space-sm);
+    color: var(--muted);
+    max-width: 52ch;
+  }
+
+  .link-flecha {
+    margin-top: var(--space-md);
+    font-size: 1.05rem;
+  }
+
+  /* Dos obras colgadas a alturas distintas, como en una sala */
+  .tas-obras {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    align-items: start;
+  }
+
+  .obra {
+    margin: 0;
+  }
+
+  .obra .marco {
+    box-shadow: 0 18px 40px -18px oklch(0.22 0.025 274 / 0.35);
+  }
+
+  .obra-a .marco { aspect-ratio: 4 / 5; }
+  .obra-b { margin-top: var(--space-xl); }
+  .obra-b .marco { aspect-ratio: 4 / 5; }
+
+  .obra figcaption {
+    margin-top: var(--space-2xs);
+  }
+
+  /* Pasos */
+  .pasos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    list-style: none;
+    margin: var(--space-section) 0 0;
+    padding: var(--space-lg) 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .paso-n {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 3vw, 3.2rem);
+    line-height: 1;
+    color: var(--tinta);
+    display: block;
+  }
+
+  .paso h3 {
+    font-size: var(--text-h3);
+    margin-top: var(--space-xs);
+  }
+
+  .paso p {
+    margin-top: var(--space-2xs);
+    color: var(--muted);
+    max-width: 34ch;
+  }
+
+  @media (max-width: 56rem) {
+    .tas-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .obra-b {
+      margin-top: var(--space-lg);
+    }
+
+    .pasos {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .paso p {
+      max-width: 56ch;
+    }
+  }
+</style>

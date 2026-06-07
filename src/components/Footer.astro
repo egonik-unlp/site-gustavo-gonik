@@ -1,0 +1,42 @@
+---
+const anio = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-marca">
+      Gustavo Gonik<span class="dot" aria-hidden="true"></span>
+    </p>
+    <p class="footer-meta">
+      Tasación, cursos y asesoramiento en arte · Buenos Aires, Argentina · {anio}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--tinta-deeper);
+    color: var(--on-dark-muted);
+    padding-block: var(--space-lg);
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .footer-marca {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--on-dark);
+  }
+
+  .footer-meta {
+    font-size: var(--text-small);
+    letter-spacing: 0.01em;
+  }
+</style>

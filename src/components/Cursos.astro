@@ -1,0 +1,201 @@
+---
+// Cursos: programa de galería, filas regladas en lugar de tarjetas.
+// REEMPLAZAR: títulos, fechas y formatos cuando haya programa real.
+const cursos = [
+  {
+    titulo: 'El ojo del coleccionista',
+    detalle:
+      'Cómo se construye el valor en el mercado del arte: artistas, galerías, subastas y ferias.',
+    formato: '4 encuentros · online en vivo',
+  },
+  {
+    titulo: 'Tasación para no tasadores',
+    detalle:
+      'Herramientas para estimar qué tenés en casa: atribución, estado, procedencia y comparables.',
+    formato: '3 encuentros · online en vivo',
+  },
+  {
+    titulo: 'Arte argentino: un mapa para comprar',
+    detalle:
+      'De los maestros modernos a la escena contemporánea: qué mirar, dónde y a qué precios.',
+    formato: '4 encuentros · presencial en Buenos Aires',
+  },
+];
+
+const imgGaleria =
+  'https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1600&q=80';
+---
+
+<section class="cursos" id="cursos">
+  <figure class="cursos-banner marco">
+    <img
+      src={imgGaleria}
+      alt="Sala blanca de galería con obras colgadas: el lugar donde se entrena el ojo"
+      width="1600"
+      height="640"
+      loading="lazy"
+    />
+  </figure>
+
+  <div class="container">
+    <div class="cursos-head">
+      <h2>Cursos para aprender a mirar<span class="dot" aria-hidden="true"></span></h2>
+      <p class="lead">
+        El ojo se entrena. Cursos cortos, en grupos chicos, para entender
+        cómo se forma el valor de una obra y comprar con criterio propio.
+      </p>
+    </div>
+
+    <ul class="programa" aria-label="Programa de cursos">
+      {cursos.map((curso, i) => (
+        <li class="curso reveal" style={`--i: ${i}`}>
+          <a href="#contacto" class="curso-link">
+            <h3>{curso.titulo}</h3>
+            <p class="curso-detalle">{curso.detalle}</p>
+            <p class="curso-formato">{curso.formato}</p>
+            <span class="curso-cta" aria-hidden="true">
+              Anotarme
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 3.5 13.5 8 9 12.5"/></svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cursos {
+    background: var(--surface);
+    padding-bottom: var(--space-section);
+  }
+
+  .cursos-banner {
+    margin: 0;
+    max-height: 24rem;
+    aspect-ratio: 16 / 6;
+  }
+
+  .cursos-head {
+    padding-top: var(--space-section);
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    max-width: 14ch;
+  }
+
+  .lead {
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    max-width: 46ch;
+    color: var(--muted);
+  }
+
+  /* Programa: filas regladas, hover de galería */
+  .programa {
+    list-style: none;
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+  }
+
+  .curso {
+    border-top: 1px solid var(--line);
+  }
+
+  .curso:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .curso-link {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 5fr) minmax(0, 2fr);
+    gap: var(--space-md);
+    align-items: baseline;
+    padding-block: var(--space-md);
+    text-decoration: none;
+    position: relative;
+    transition: background-color 200ms var(--ease-out-quart), padding-left 250ms var(--ease-out-quart);
+  }
+
+  .curso-link::before {
+    /* el punto rojo aparece al pasar: esta pieza te interesa */
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--rojo);
+    transform: translateY(-50%) scale(0);
+    transition: transform 250ms var(--ease-out-quint);
+  }
+
+  .curso-link:hover {
+    padding-left: 1.6rem;
+  }
+
+  .curso-link:hover::before {
+    transform: translateY(-50%) scale(1);
+  }
+
+  .curso h3 {
+    font-size: var(--text-h3);
+  }
+
+  .curso-detalle {
+    color: var(--muted);
+    font-size: 0.98rem;
+    max-width: 44ch;
+  }
+
+  .curso-formato {
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .curso-cta {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--tinta);
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out-quart);
+  }
+
+  .curso-link:hover .curso-cta,
+  .curso-link:focus-visible .curso-cta {
+    opacity: 1;
+  }
+
+  @media (max-width: 56rem) {
+    .cursos-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .curso-link {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xs);
+    }
+
+    .curso-cta {
+      position: static;
+      transform: none;
+      opacity: 1;
+      margin-top: var(--space-2xs);
+    }
+  }
+</style>

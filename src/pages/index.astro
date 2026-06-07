@@ -1,0 +1,122 @@
+---
+import '@fontsource/gloock';
+import '@fontsource-variable/schibsted-grotesk';
+import '../styles/global.css';
+
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Tasacion from '../components/Tasacion.astro';
+import Cursos from '../components/Cursos.astro';
+import Asesoria from '../components/Asesoria.astro';
+import Sobre from '../components/Sobre.astro';
+import Contacto from '../components/Contacto.astro';
+import Footer from '../components/Footer.astro';
+
+// REEMPLAZAR: datos de contacto reales de Gustavo (un solo lugar).
+const CONTACTO = {
+  whatsapp: '5491100000000', // sin "+", formato wa.me
+  whatsappDisplay: '+54 9 11 0000-0000',
+  email: 'hola@gustavogonik.com',
+  telefono: '+5491100000000',
+  telefonoDisplay: '+54 9 11 0000-0000',
+};
+
+const whatsappUrl = `https://wa.me/${CONTACTO.whatsapp}?text=${encodeURIComponent(
+  'Hola Gustavo, quiero hacerte una consulta.'
+)}`;
+
+const titulo = 'Gustavo Gonik · Tasación de obras de arte, cursos y asesoramiento';
+const descripcion =
+  'Tasación de obras de arte y colecciones, cursos para aprender a mirar el mercado del arte y asesoramiento para elegir arte para tus espacios. Buenos Aires, Argentina.';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <Hero whatsappUrl={whatsappUrl} />
+      <Tasacion />
+      <Cursos />
+      <Asesoria />
+      <Sobre />
+      <Contacto
+        whatsappUrl={whatsappUrl}
+        whatsappDisplay={CONTACTO.whatsappDisplay}
+        email={CONTACTO.email}
+        telefono={CONTACTO.telefono}
+        telefonoDisplay={CONTACTO.telefonoDisplay}
+      />
+    </main>
+    <Footer />
+
+    <!-- WhatsApp flotante: el canal principal, siempre a mano -->
+    <a class="wsp-float" href={whatsappUrl} aria-label="Escribir a Gustavo por WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.1c0 .2.1.4 0 .6l-.4.6-.4.5c-.2.1-.3.3-.1.6.1.3.7 1.1 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.2.4.1.6 0l.8-1c.2-.3.4-.2.7-.1l2.1 1c.3.1.5.2.6.4 0 .1 0 .7-.1 1.3Z"/></svg>
+    </a>
+
+    <script>
+      // Mejora progresiva: revelados al hacer scroll con IntersectionObserver.
+      // Sin JS (o con motion reducido) todo el contenido es visible.
+      document.documentElement.classList.add('js');
+
+      const revelables = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver(
+        (entradas) => {
+          for (const entrada of entradas) {
+            if (entrada.isIntersecting) {
+              entrada.target.classList.add('in');
+              io.unobserve(entrada.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px' }
+      );
+      revelables.forEach((el) => io.observe(el));
+
+      // Red de seguridad: si el observer no disparó (render sin scroll,
+      // lectores de captura), mostrar todo igual.
+      setTimeout(() => {
+        revelables.forEach((el) => el.classList.add('in'));
+      }, 1500);
+    </script>
+
+    <style>
+      .wsp-float {
+        position: fixed;
+        right: clamp(1rem, 3vw, 1.75rem);
+        bottom: clamp(1rem, 3vw, 1.75rem);
+        z-index: var(--z-float);
+        display: grid;
+        place-items: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--rojo);
+        color: oklch(1 0 0);
+        box-shadow: 0 12px 30px -8px oklch(0.55 0.19 30 / 0.6);
+        transition: transform 200ms var(--ease-out-quint), box-shadow 200ms var(--ease-out-quint);
+      }
+
+      .wsp-float:hover {
+        transform: scale(1.08);
+        box-shadow: 0 16px 36px -8px oklch(0.55 0.19 30 / 0.7);
+      }
+
+      .wsp-float:active {
+        transform: scale(0.96);
+      }
+    </style>
+  </body>
+</html>

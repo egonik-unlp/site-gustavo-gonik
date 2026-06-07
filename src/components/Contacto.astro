@@ -1,0 +1,285 @@
+---
+interface Props {
+  whatsappUrl: string;
+  whatsappDisplay: string;
+  email: string;
+  telefono: string;
+  telefonoDisplay: string;
+}
+
+const { whatsappUrl, whatsappDisplay, email, telefono, telefonoDisplay } = Astro.props;
+---
+
+<section class="contacto" id="contacto">
+  <div class="container">
+    <h2>Contame qué tenés<span class="dot dot-grande" aria-hidden="true"></span></h2>
+    <p class="lead">
+      Una foto alcanza para empezar. Escribime por donde te quede más cómodo.
+    </p>
+
+    <div class="con-grid">
+      <ul class="canales" aria-label="Canales de contacto">
+        <li>
+          <a class="canal" href={whatsappUrl}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.1c0 .2.1.4 0 .6l-.4.6-.4.5c-.2.1-.3.3-.1.6.1.3.7 1.1 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.2.4.1.6 0l.8-1c.2-.3.4-.2.7-.1l2.1 1c.3.1.5.2.6.4 0 .1 0 .7-.1 1.3Z"/></svg>
+            <span>
+              <span class="canal-nombre">WhatsApp</span>
+              <span class="canal-valor">{whatsappDisplay}</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="canal" href={`mailto:${email}`}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <span>
+              <span class="canal-nombre">Email</span>
+              <span class="canal-valor">{email}</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="canal" href={`tel:${telefono}`}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+            <span>
+              <span class="canal-nombre">Teléfono</span>
+              <span class="canal-valor">{telefonoDisplay}</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- El formulario compone un email en el cliente del visitante
+           (sitio estático). Cuando haya backend, cambiar por un POST. -->
+      <form class="form" id="form-contacto" novalidate>
+        <div class="campo-fila">
+          <div class="campo">
+            <label for="f-nombre">Nombre</label>
+            <input id="f-nombre" name="nombre" type="text" required autocomplete="name" />
+          </div>
+          <div class="campo">
+            <label for="f-email">Tu email</label>
+            <input id="f-email" name="email" type="email" required autocomplete="email" inputmode="email" />
+          </div>
+        </div>
+        <div class="campo">
+          <label for="f-motivo">¿Sobre qué querés hablar?</label>
+          <select id="f-motivo" name="motivo">
+            <option value="Tasación">Tasación de una obra o colección</option>
+            <option value="Cursos">Cursos</option>
+            <option value="Asesoramiento">Arte para mi espacio</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="f-mensaje">Mensaje</label>
+          <textarea id="f-mensaje" name="mensaje" rows="4" required placeholder="Contame qué tenés o qué estás buscando"></textarea>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden>
+          Completá tu nombre, tu email y el mensaje para poder enviarlo.
+        </p>
+        <button class="btn btn-rojo" type="submit">Enviar consulta</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ email }}>
+  const form = document.getElementById('form-contacto');
+  const error = document.getElementById('form-error');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const datos = new FormData(form);
+    const nombre = String(datos.get('nombre') || '').trim();
+    const remitente = String(datos.get('email') || '').trim();
+    const motivo = String(datos.get('motivo') || 'Consulta');
+    const mensaje = String(datos.get('mensaje') || '').trim();
+
+    if (!nombre || !remitente || !mensaje) {
+      error.hidden = false;
+      return;
+    }
+    error.hidden = true;
+
+    const asunto = encodeURIComponent(`${motivo}: consulta desde la web (${nombre})`);
+    const cuerpo = encodeURIComponent(`${mensaje}\n\n${nombre}\n${remitente}`);
+    window.location.href = `mailto:${email}?subject=${asunto}&body=${cuerpo}`;
+  });
+</script>
+
+<style>
+  .contacto {
+    background: var(--tinta-deeper);
+    color: var(--on-dark);
+    padding-block: var(--space-section);
+  }
+
+  h2 {
+    font-size: clamp(2.4rem, 5vw + 0.5rem, 4.6rem);
+    color: oklch(1 0 0);
+  }
+
+  .dot-grande {
+    width: 0.22em;
+    height: 0.22em;
+  }
+
+  .lead {
+    margin-top: var(--space-md);
+    font-size: var(--text-lead);
+    letter-spacing: 0.01em;
+    line-height: 1.65;
+    color: var(--on-dark-muted);
+    max-width: 44ch;
+  }
+
+  .con-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    margin-top: var(--space-xl);
+    align-items: start;
+  }
+
+  /* Canales */
+  .canales {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+
+  .canal {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-block: var(--space-md);
+    text-decoration: none;
+    border-top: 1px solid var(--line-dark);
+    transition: padding-left 250ms var(--ease-out-quart);
+  }
+
+  .canales li:last-child .canal {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .canal:hover {
+    padding-left: 0.8rem;
+  }
+
+  .canal svg {
+    flex: 0 0 auto;
+    color: var(--rojo);
+  }
+
+  .canal-nombre {
+    display: block;
+    font-size: var(--text-small);
+    letter-spacing: 0.02em;
+    color: var(--on-dark-muted);
+  }
+
+  .canal-valor {
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--on-dark);
+    overflow-wrap: anywhere;
+  }
+
+  .canal > span {
+    min-width: 0;
+  }
+
+  /* Formulario */
+  .form {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .campo-fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .campo {
+    display: grid;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  label {
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--on-dark-muted);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-width: 0;
+    font: inherit;
+    color: var(--on-dark);
+    background: oklch(1 0 0 / 0.06);
+    border: 1px solid var(--line-dark);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    transition: border-color 180ms var(--ease-out-quart), background-color 180ms var(--ease-out-quart);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 6.5rem;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--on-dark-muted);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--on-dark-muted);
+    background: oklch(1 0 0 / 0.09);
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='none' stroke='%23b8b6d4' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 6 5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.6rem;
+  }
+
+  select option {
+    color: var(--ink);
+    background: var(--bg);
+  }
+
+  .form-error {
+    color: oklch(0.78 0.13 30);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .form button {
+    justify-self: start;
+  }
+
+  @media (max-width: 56rem) {
+    .con-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .campo-fila {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

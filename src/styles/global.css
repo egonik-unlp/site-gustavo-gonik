@@ -1,0 +1,259 @@
+/* ---------------------------------------------------------------------------
+   Gustavo Gonik — sistema visual
+   Estrategia de color: "vernissage" — tinta violeta profunda (Committed)
+   alternando con paredes blancas de galería. Acento: el punto rojo del
+   mundo del arte (sticker de "vendido").
+--------------------------------------------------------------------------- */
+
+:root {
+  /* Color */
+  --bg: oklch(1 0 0);                       /* pared blanca de galería */
+  --surface: oklch(0.962 0.009 274);        /* panel apenas entintado */
+  --ink: oklch(0.22 0.025 274);             /* texto sobre blanco */
+  --muted: oklch(0.43 0.03 274);            /* texto secundario sobre blanco */
+  --tinta: oklch(0.38 0.14 272);            /* primario: tinta violeta */
+  --tinta-deep: oklch(0.21 0.05 274);       /* fondo hero */
+  --tinta-deeper: oklch(0.165 0.04 274);    /* fondo contacto / footer */
+  --rojo: oklch(0.55 0.19 30);              /* el punto rojo */
+  --on-dark: oklch(0.95 0.012 274);         /* texto sobre tinta */
+  --on-dark-muted: oklch(0.79 0.035 274);   /* secundario sobre tinta */
+  --line: oklch(0.88 0.012 274);            /* reglas sobre blanco */
+  --line-dark: oklch(0.34 0.05 274);        /* reglas sobre tinta */
+
+  /* Tipografía */
+  --font-display: 'Gloock', 'Georgia', serif;
+  --font-body: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', system-ui, sans-serif;
+
+  --text-hero: clamp(2.6rem, 6vw + 0.9rem, 5.4rem);
+  --text-h2: clamp(2rem, 3.2vw + 0.9rem, 3.3rem);
+  --text-h3: clamp(1.3rem, 0.9vw + 1rem, 1.7rem);
+  --text-lead: clamp(1.125rem, 0.4vw + 1rem, 1.3rem);
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+
+  /* Espaciado */
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-section: clamp(5rem, 10vw, 9rem);
+
+  /* Movimiento */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Capas */
+  --z-nav: 10;
+  --z-float: 20;
+
+  --container: 72rem;
+}
+
+/* ----- base ----- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--tinta);
+  color: var(--on-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rojo);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ----- utilidades compartidas ----- */
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* El punto rojo: motivo de marca (el sticker de "vendido") */
+.dot {
+  display: inline-block;
+  width: 0.34em;
+  height: 0.34em;
+  border-radius: 50%;
+  background: var(--rojo);
+  margin-left: 0.12em;
+  transform: translateY(-0.06em);
+}
+
+/* Etiqueta de museo: microformato reutilizado (ficha de obra) */
+.label-obra {
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.label-obra strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  border-radius: 999px;
+  padding: 1rem 1.75rem;
+  cursor: pointer;
+  transition: transform 180ms var(--ease-out-quart), box-shadow 180ms var(--ease-out-quart), background-color 180ms var(--ease-out-quart);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-rojo {
+  background: var(--rojo);
+  color: oklch(1 0 0);
+}
+
+.btn-rojo:hover {
+  box-shadow: 0 10px 28px -8px oklch(0.55 0.19 30 / 0.55);
+}
+
+.btn-ghost-dark {
+  background: transparent;
+  color: var(--on-dark);
+  box-shadow: inset 0 0 0 1.5px var(--line-dark);
+}
+
+.btn-ghost-dark:hover {
+  box-shadow: inset 0 0 0 1.5px var(--on-dark-muted);
+}
+
+/* Enlaces de texto */
+.link-flecha {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--tinta);
+}
+
+.link-flecha svg {
+  transition: transform 200ms var(--ease-out-quart);
+}
+
+.link-flecha:hover svg {
+  transform: translateX(4px);
+}
+
+/* Marco de obra: imágenes presentadas como piezas colgadas */
+.marco {
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out-quint);
+}
+
+.marco:hover img {
+  transform: scale(1.03);
+}
+
+/* Revelado al hacer scroll (mejora progresiva: visible por defecto;
+   JS + IntersectionObserver lo activan, con fallback temporal) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 600ms var(--ease-out-quart), transform 600ms var(--ease-out-quart);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* ----- movimiento reducido ----- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
